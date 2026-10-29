@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>EasyView</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header class="brand">
+    <div class="logo" aria-hidden="true">E</div>
+    <div>
+      <p class="brand-name">EasyView</p>
+      <h1>Make this website easier to use</h1>
+    </div>
+  </header>
+
+  <main>
+    <p id="status" class="status" role="status" aria-live="polite" hidden></p>
+
+    <div id="controls">
+      <section aria-labelledby="h-comfort">
+        <h2 id="h-comfort" class="visually-hidden">Comfort Mode</h2>
+        <button id="comfort" class="toggle toggle-primary" type="button" role="switch" aria-checked="false">
+          <span class="toggle-text">
+            <strong>Comfort Mode</strong>
+            <small>Bigger text, clearer colours, easier reading</small>
+          </span>
+          <span class="toggle-state">Off</span>
+        </button>
+        <div class="slider-block">
+          <label for="comfort-slider">Comfort Mode text size: <output id="comfort-value">120%</output></label>
+          <input id="comfort-slider" type="range" min="100" max="200" step="5" value="120">
+          <div class="slider-scale" aria-hidden="true"><span>100%</span><span>200%</span></div>
+        </div>
+      </section>
+
+      <section aria-labelledby="h-size">
+        <h2 id="h-size">Text size</h2>
+        <div class="size-row">
+          <button id="size-down" class="btn" type="button" aria-label="Make text smaller">A&minus;</button>
+          <output id="size-value" class="size-value" aria-live="polite">100%</output>
+          <button id="size-up" class="btn" type="button" aria-label="Make text larger">A+</button>
+          <button id="size-reset" class="btn btn-secondary" type="button">Reset</button>
+        </div>
+        <div class="slider-block">
+          <label class="visually-hidden" for="size-slider">Text size slider</label>
+          <input id="size-slider" type="range" min="80" max="200" step="5" value="100">
+          <div class="slider-scale" aria-hidden="true"><span>80%</span><span>200%</span></div>
+        </div>
+      </section>
+
+      <section>
+        <fieldset>
+          <legend>Colours</legend>
+          <div class="choices">
+            <label class="choice"><input type="radio" name="theme" value="default"><span>Original</span></label>
+            <label class="choice"><input type="radio" name="theme" value="light"><span>Light</span></label>
+            <label class="choice"><input type="radio" name="theme" value="dark"><span>Dark</span></label>
+            <label class="choice"><input type="radio" name="theme" value="highContrast"><span>High contrast</span></label>
+          </div>
+        </fieldset>
+      </section>
+
+      <section aria-labelledby="h-read">
+        <h2 id="h-read">Easier reading</h2>
+        <div class="stack">
+          <button class="toggle" type="button" role="switch" aria-checked="false" data-setting="readableFont">
+            <span class="toggle-text"><strong>Readable font</strong></span><span class="toggle-state">Off</span>
+          </button>
+          <button class="toggle" type="button" role="switch" aria-checked="false" data-setting="lineSpacing">
+            <span class="toggle-text"><strong>More line spacing</strong></span><span class="toggle-state">Off</span>
+          </button>
+          <button class="toggle" type="button" role="switch" aria-checked="false" data-setting="letterSpacing">
+            <span class="toggle-text"><strong>More letter spacing</strong></span><span class="toggle-state">Off</span>
+          </button>
+          <button class="toggle" type="button" role="switch" aria-checked="false" data-setting="paragraphSpacing">
+            <span class="toggle-text"><strong>More paragraph spacing</strong></span><span class="toggle-state">Off</span>
+          </button>
+        </div>
+      </section>
+
+      <section aria-labelledby="h-more">
+        <h2 id="h-more">Mouse and focus</h2>
+        <div class="stack">
+          <button class="toggle" type="button" role="switch" aria-checked="false" data-setting="bigCursor">
+            <span class="toggle-text"><strong>Easy-to-find cursor</strong><small>Big pointer with an orange ring</small></span><span class="toggle-state">Off</span>
+          </button>
+          <button class="toggle" type="button" role="switch" aria-checked="false" data-setting="focusMode">
+            <span class="toggle-text"><strong>Focus Mode</strong><small>Stops motion, hides ads</small></span><span class="toggle-state">Off</span>
+          </button>
+        </div>
+      </section>
+
+      <section aria-labelledby="h-aloud">
+        <h2 id="h-aloud">Read Aloud</h2>
+        <div class="read-row">
+          <button id="read-play" class="btn" type="button">Play</button>
+          <button id="read-pause" class="btn" type="button" disabled>Pause</button>
+          <button id="read-stop" class="btn" type="button" disabled>Stop</button>
+        </div>
+        <p id="read-note" class="note"></p>
+      </section>
+
+      <footer>
+        <button id="reset-all" class="btn btn-danger" type="button">Reset All</button>
+        <p class="note">Settings are saved for this website only: <strong id="site">this site</strong>. The Comfort Mode text size applies to all websites.</p>        <p class="note">Your settings apply to all websites. You are on: <strong id="site">this site</strong></p>
+      </footer>
+    </div>
+  </main>
+
+  <script src="popup.js"></script>
+</body>
+</html>

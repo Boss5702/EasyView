@@ -1,0 +1,31 @@
+{
+  "manifest_version": 3,
+  "name": "EasyView",
+  "version": "1.1.0",
+  "description": "Makes websites easier to read and use: bigger text, clearer colours, Read Aloud and Focus Mode.",
+  "minimum_chrome_version": "110",
+  "permissions": ["storage", "activeTab", "scripting"],
+  "action": {
+    "default_title": "EasyView",
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*", "file:///*"],
+      "css": ["accessibility.css"],
+      "js": ["content.js"],
+      "run_at": "document_start",
+      "all_frames": false
+    }
+  ]
+}

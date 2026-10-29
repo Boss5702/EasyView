@@ -1,0 +1,189 @@
+/* EasyView page styles.
+   Every rule is scoped under an html.ev-* class that content.js adds or removes,
+   so this file does nothing on a page until a setting is switched on.
+
+   Colour modes (important for images):
+   - Only the <html> element gets the theme background; <body> stays transparent.
+   - Backgrounds are recoloured ONLY on elements content.js tagged [data-ev-bg]
+     (solid-ish background, no background image). Their original see-through amount
+     is kept in --ev-a, so images behind translucent panels stay visible.
+   - Elements with a background image are tagged [data-ev-keep] and keep their own colours.
+   - Images (and background-image elements) whose original backdrop would clash with the new
+     theme get a backing colour via [data-ev-backdrop], so transparent logos cannot vanish.
+   - Images always use normal blending, so "multiply" product photos cannot turn black. */
+
+/* ---------- Text size (original size × scale, set per element by content.js) ---------- */
+html.ev-scaled [data-ev-fs] {
+  font-size: calc(var(--ev-fs) * var(--ev-scale, 1)) !important;
+}
+/* Low specificity on purpose, so "More line spacing" (below) wins when it is on. */
+html.ev-scaled :where([data-ev-fs]) {
+  line-height: 1.4 !important;
+}
+
+/* ---------- Readable font ---------- */
+html.ev-readable-font body,
+html.ev-readable-font body *:not(:is(i, svg, svg *, code, pre, kbd, samp,
+    [class*="icon" i], [class*="fa-"], [class~="fa"], [class~="fas"], [class~="far"],
+    [class~="fab"], [class*="material" i], [class*="glyph" i])) {
+  font-family: Verdana, Tahoma, "Segoe UI", Arial, sans-serif !important;
+}
+
+/* ---------- Spacing ---------- */
+html.ev-line-spacing body :where(p, li, dd, dt, td, th, blockquote, figcaption, label, span, a, div) {
+  line-height: 1.8 !important;
+}
+html.ev-line-spacing body :where(h1, h2, h3, h4, h5, h6) {
+  line-height: 1.5 !important;
+}
+
+html.ev-letter-spacing body,
+html.ev-letter-spacing body *:not(:is(i, svg, svg *, [class*="icon" i], [class*="fa-"],
+    [class~="fa"], [class~="fas"], [class~="far"], [class~="fab"], [class*="material" i])) {
+  letter-spacing: 0.12em !important;
+  word-spacing: 0.16em !important;
+}
+
+html.ev-paragraph-spacing body :where(p) { margin-bottom: 1.5em !important; }
+html.ev-paragraph-spacing body :where(li) { margin-bottom: 0.6em !important; }
+html.ev-paragraph-spacing body :where(h1, h2, h3, h4, h5, h6) {
+  margin-top: 1.2em !important;
+  margin-bottom: 0.6em !important;
+}
+
+/* ---------- All colour modes: never let images blend into the background ---------- */
+html:is(.ev-theme-light, .ev-theme-dark, .ev-theme-hc) :is(img, picture, video, canvas, [data-ev-keep]) {
+  mix-blend-mode: normal !important;
+}
+
+/* ---------- Light mode (dark text on white) ---------- */
+html.ev-theme-light {
+  color-scheme: light !important;
+  background-color: #ffffff !important;
+  color: #111111 !important;
+}
+html.ev-theme-light body { background-color: transparent !important; color: #111111 !important; }
+html.ev-theme-light body *:not(:is(img, video, canvas, picture, iframe, object, embed, svg, svg *, [data-ev-keep], [data-ev-keep] *)) {
+  color: #111111 !important;
+  border-color: #6b6b6b !important;
+  text-shadow: none !important;
+}
+html.ev-theme-light body [data-ev-bg] { background-color: rgb(255 255 255 / var(--ev-a, 1)) !important; }
+html.ev-theme-light body :is(a:any-link, a:any-link *):not(:is([data-ev-keep], [data-ev-keep] *, img, svg, svg *)) {
+  color: #0b3d91 !important; text-decoration: underline !important;
+}
+html.ev-theme-light body :is(a:visited, a:visited *):not(:is([data-ev-keep], [data-ev-keep] *, img, svg, svg *)) {
+  color: #5a2a9c !important;
+}
+html.ev-theme-light body :is(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="image"]), select, textarea, button) {
+  background-color: #ffffff !important; color: #111111 !important; border: 2px solid #555555 !important;
+}
+/* Pictures that were designed for a dark background get a dark backing so they stay visible. */
+html.ev-theme-light img[data-ev-backdrop="dark"],
+html.ev-theme-light [data-ev-keep][data-ev-backdrop="dark"] { background-color: #2b2b2b !important; }
+html.ev-theme-light ::placeholder { color: #595959 !important; opacity: 1 !important; }
+html.ev-theme-light :focus-visible { outline: 3px solid #0b3d91 !important; outline-offset: 2px !important; }
+
+/* ---------- Dark mode (light text on near-black) ---------- */
+html.ev-theme-dark {
+  color-scheme: dark !important;
+  background-color: #121212 !important;
+  color: #f2f2f2 !important;
+}
+html.ev-theme-dark body { background-color: transparent !important; color: #f2f2f2 !important; }
+html.ev-theme-dark body *:not(:is(img, video, canvas, picture, iframe, object, embed, svg, svg *, [data-ev-keep], [data-ev-keep] *)) {
+  color: #f2f2f2 !important;
+  border-color: #8a8a8a !important;
+  text-shadow: none !important;
+}
+html.ev-theme-dark body [data-ev-bg] { background-color: rgb(18 18 18 / var(--ev-a, 1)) !important; }
+html.ev-theme-dark body :is(a:any-link, a:any-link *):not(:is([data-ev-keep], [data-ev-keep] *, img, svg, svg *)) {
+  color: #9ecbff !important; text-decoration: underline !important;
+}
+html.ev-theme-dark body :is(a:visited, a:visited *):not(:is([data-ev-keep], [data-ev-keep] *, img, svg, svg *)) {
+  color: #d7b3ff !important;
+}
+html.ev-theme-dark body :is(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="image"]), select, textarea, button) {
+  background-color: #1e1e1e !important; color: #ffffff !important; border: 2px solid #b0b0b0 !important;
+}
+html.ev-theme-dark ::placeholder { color: #b8b8b8 !important; opacity: 1 !important; }
+html.ev-theme-dark :focus-visible { outline: 3px solid #ffd400 !important; outline-offset: 2px !important; }
+
+/* ---------- High contrast (white on black, yellow links) ---------- */
+html.ev-theme-hc {
+  color-scheme: dark !important;
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+html.ev-theme-hc body { background-color: transparent !important; color: #ffffff !important; }
+html.ev-theme-hc body *:not(:is(img, video, canvas, picture, iframe, object, embed, svg, svg *, [data-ev-keep], [data-ev-keep] *)) {
+  color: #ffffff !important;
+  border-color: #ffffff !important;
+  text-shadow: none !important;
+}
+html.ev-theme-hc body [data-ev-bg] { background-color: rgb(0 0 0 / var(--ev-a, 1)) !important; }
+html.ev-theme-hc body :is(a:any-link, a:any-link *):not(:is([data-ev-keep], [data-ev-keep] *, img, svg, svg *)) {
+  color: #ffff00 !important; text-decoration: underline !important;
+}
+html.ev-theme-hc body :is(a:visited, a:visited *):not(:is([data-ev-keep], [data-ev-keep] *, img, svg, svg *)) {
+  color: #ffb3ff !important;
+}
+html.ev-theme-hc body :is(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="image"]), select, textarea, button) {
+  background-color: #000000 !important; color: #ffffff !important; border: 2px solid #ffffff !important;
+}
+html.ev-theme-hc ::placeholder { color: #d9d9d9 !important; opacity: 1 !important; }
+html.ev-theme-hc :focus-visible { outline: 4px solid #00ffff !important; outline-offset: 2px !important; }
+
+/* Dark and high contrast: pictures designed for a light background get a white backing. */
+html:is(.ev-theme-dark, .ev-theme-hc) img[data-ev-backdrop="light"],
+html:is(.ev-theme-dark, .ev-theme-hc) [data-ev-keep][data-ev-backdrop="light"] {
+  background-color: #ffffff !important;
+}
+
+/* ---------- Easy-to-find cursor ---------- */
+html.ev-big-cursor {
+  --ev-cursor-arrow: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'><path d='M5 3 L5 31 L12 25 L17 37 L23 34.5 L18 23 L28 23 Z' fill='black' stroke='white' stroke-width='2.5' stroke-linejoin='round'/></svg>");
+  --ev-cursor-hand: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'><path d='M5 3 L5 31 L12 25 L17 37 L23 34.5 L18 23 L28 23 Z' fill='gold' stroke='black' stroke-width='2.5' stroke-linejoin='round'/></svg>");
+}
+html.ev-big-cursor,
+html.ev-big-cursor body,
+html.ev-big-cursor body * {
+  cursor: var(--ev-cursor-arrow) 5 3, auto !important;
+}
+html.ev-big-cursor body :is(a:any-link, button, summary, select, label, [role="button"], [role="link"],
+    input[type="button"], input[type="submit"], input[type="checkbox"], input[type="radio"]) {
+  cursor: var(--ev-cursor-hand) 5 3, pointer !important;
+}
+html.ev-big-cursor body :is(input:not([type="button"]):not([type="submit"]):not([type="checkbox"]):not([type="radio"]),
+    textarea, [contenteditable=""], [contenteditable="true"]) {
+  cursor: text !important;
+}
+
+/* ---------- Focus Mode ----------
+   Animations are NOT overridden here (that could leave carousels and fade-in images invisible).
+   content.js freezes only endlessly looping animations instead. */
+html.ev-focus { scroll-behavior: auto !important; }
+html.ev-focus marquee,
+html.ev-focus blink,
+html.ev-focus ins.adsbygoogle,
+html.ev-focus [id^="google_ads_"],
+html.ev-focus [data-ad-slot],
+html.ev-focus [class~="advertisement"],
+html.ev-focus iframe[src*="doubleclick"],
+html.ev-focus iframe[src*="googlesyndication"] {
+  display: none !important;
+}
+/* Side panels are faded a little, never hidden, unless they contain nothing interactive. */
+html.ev-focus :is(aside, [role="complementary"]):not(:has(input, select, textarea, form, [role="alert"], [role="alertdialog"])) {
+  opacity: 0.65 !important;
+}
+html.ev-focus :is(aside, [role="complementary"]):hover,
+html.ev-focus :is(aside, [role="complementary"]):focus-within {
+  opacity: 1 !important;
+}
+
+/* ---------- Read Aloud highlight ---------- */
+.ev-reading-current {
+  outline: 4px solid #ff9800 !important;
+  outline-offset: 4px !important;
+}
